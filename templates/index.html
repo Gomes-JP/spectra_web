@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.P.E.C.T.R.A. - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="sidebar">
+    <h2>S.P.E.C.T.R.A.</h2>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/isochrone-fitting">Isochrone Fitting</a></li>
+        <li><a href="/mass-magnitude-modeling">Mass-Magnitude Modeling</a></li>
+        <li><a href="/mathematical-modeling">Mathematical Modeling</a></li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <section class="hero">
+        <h1>Welcome to S.P.E.C.T.R.A.</h1>
+        <p>Stellar Parameter Estimation and Calculation Tools for Research and Analysis</p>
+        <div class="cta-buttons">
+            <a href="/isochrone-fitting" class="btn">Run Isochrone Fitting</a>
+            <a href="/mass-magnitude-modeling" class="btn">Analyze Mass-Magnitude</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h3>Isochrone Fitting</h3>
+            <p>Match stellar properties to isochrones for age and mass estimation.</p>
+        </div>
+        <div class="feature">
+            <h3>Mass-Magnitude Modeling</h3>
+            <p>Predict stellar mass from magnitudes using advanced models.</p>
+        </div>
+        <div class="feature">
+            <h3>Mathematical Modeling</h3>
+            <p>Use PCA and regression techniques for stellar property analysis.</p>
+        </div>
+    </section>
+</div>
+</body>
+</html>

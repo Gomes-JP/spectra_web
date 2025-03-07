@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isochrone Fitting - S.P.E.C.T.R.A.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="sidebar">
+  <h2>S.P.E.C.T.R.A.</h2>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/isochrone-fitting">Isochrone Fitting</a></li>
+    <li><a href="/mass-magnitude-modeling">Mass-Magnitude Modeling</a></li>
+    <li><a href="/mathematical-modeling">Mathematical Modeling</a></li>
+  </ul>
+</div>
+
+<section class="isochrone-fitting">
+  <h2>Isochrone Fitting</h2>
+  <form id="isochroneForm" method="POST">
+    <label for="model">Isochrone Model:</label>
+    <select id="model" name="model">
+      <option value="Siess2000">Siess 2000</option>
+      <option value="BHAC15">BHAC15</option>
+      <option value="PARSEC">PARSEC</option>
+    </select>
+
+    <label for="temperature">Effective Temperature (K):</label>
+    <input type="number" id="temperature" name="temperature" required>
+
+    <label for="luminosity">Luminosity (logL):</label>
+    <input type="number" id="luminosity" name="luminosity" required>
+
+    <button type="submit">Run Fitting</button>
+  </form>
+
+  {% if result %}
+  <div id="results">
+    <h3>Results</h3>
+    <p>Mass: {{ result.mass }}</p>
+    <p>Age: {{ result.age }}</p>
+  </div>
+  {% endif %}
+</section>
+</body>
+</html>

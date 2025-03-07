@@ -1,0 +1,26 @@
+<!-- Mathematical Modeling Form -->
+<section class="mathematical-modeling">
+  <h2>Mathematical Modeling</h2>
+  <form id="modelingForm">
+    <label for="target">Select Target:</label>
+    <select id="target" name="target">
+      <option value="mass">Mass</option>
+      <option value="age">Age</option>
+    </select>
+
+    <label for="features">Select Features:</label>
+    <select id="features" name="features" multiple>
+      <option value="teff">Effective Temperature</option>
+      <option value="logl">Luminosity</option>
+    </select>
+
+    <button type="submit">Build Model</button>
+  </form>
+
+  <!-- Results Section -->
+  <div id="results">
+    <h3>Results</h3>
+    <div id="pcaPlot"></div>
+    <div id="regressionReport"></div>
+  </div>
+</section>

@@ -1,103 +1,115 @@
-# app.py
-from flask import Flask, render_template, request, jsonify, send_file, session
-import pandas as pd
-import numpy as np
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
-import madys
-from tools import MathModels, RegressionReport, FilterValues, interpolmass
-from sklearn.impute import KNNImputer, IterativeImputer
-import plotly
-import json
-import uuid
+import pandas as pd
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key_here"
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.secret_key = "your_secret_key"
 
-# Helper functions
-def save_plot(fig):
-    plot_id = str(uuid.uuid4())
-    path = os.path.join('static/plots', f'{plot_id}.json')
-    fig.write_json(path)
-    return plot_id
+# Configuration for file uploads
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'csv'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Ensure the upload folder exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    """Check if the file has an allowed extension."""
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Home Page
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
+# Isochrone Fitting Page
+@app.route('/isochrone-fitting', methods=['GET', 'POST'])
+def isochrone_fitting():
+    if request.method == 'POST':
+        # Process form data
+        model = request.form.get('model')
+        temperature = float(request.form.get('temperature'))
+        luminosity = float(request.form.get('luminosity'))
+
+        # Call your Python backend function for isochrone fitting
+        # Example: result = isochrone_fit(model, temperature, luminosity)
+        result = {
+            'mass': 1.2,  # Example result
+            'age': 100,   # Example result
+        }
+
+        # Render the results
+        return render_template('isochrone_fitting.html', result=result)
+
+    return render_template('isochrone_fitting.html')
+
+# Mass-Magnitude Modeling Page
+@app.route('/mass-magnitude-modeling', methods=['GET', 'POST'])
+def mass_magnitude_modeling():
+    if request.method == 'POST':
+        # Process form data
+        model = request.form.get('model')
+        mass_range = request.form.get('massRange')
+        age = float(request.form.get('age'))
+        mag_filter = request.form.get('filter')
+
+        # Call your Python backend function for mass-magnitude modeling
+        # Example: result = mass_magnitude_model(model, mass_range, age, mag_filter)
+        result = {
+            'regression_plot': 'regression_plot.png',  # Example result
+            'model_report': 'Model built successfully.',  # Example result
+        }
+
+        # Render the results
+        return render_template('mass_magnitude_modeling.html', result=result)
+
+    return render_template('mass_magnitude_modeling.html')
+
+# Mathematical Modeling Page
+@app.route('/mathematical-modeling', methods=['GET', 'POST'])
+def mathematical_modeling():
+    if request.method == 'POST':
+        # Process form data
+        target = request.form.get('target')
+        features = request.form.getlist('features')  # Get multiple selected features
+
+        # Call your Python backend function for mathematical modeling
+        # Example: result = mathematical_model(target, features)
+        result = {
+            'pca_plot': 'pca_plot.png',  # Example result
+            'regression_report': 'Regression model built successfully.',  # Example result
+        }
+
+        # Render the results
+        return render_template('mathematical_modeling.html', result=result)
+
+    return render_template('mathematical_modeling.html')
+
+# File Upload Route
 @app.route('/upload', methods=['POST'])
-def handle_upload():
+def upload_file():
     if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
+        flash('No file part')
+        return redirect(request.url)
 
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'error': 'Empty filename'}), 400
+        flash('No selected file')
+        return redirect(request.url)
 
-    try:
-        df = pd.read_csv(file)
-        session['table_data'] = df.to_json()
-        return jsonify({
-            'message': 'File uploaded successfully',
-            'columns': list(df.columns),
-            'preview': df.head().to_html()
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
 
-@app.route('/build_model', methods=['POST'])
-def handle_model():
-    data = request.json
-    method = data['method']
-    df = pd.read_json(session['table_data'])
+        # Process the uploaded file (e.g., load it into a DataFrame)
+        data = pd.read_csv(file_path)
+        flash('File uploaded successfully')
+        return redirect(url_for('home'))
 
-    try:
-        if method == 'MMR':
-            # Mass-Magnitude Modeling logic
-            result = build_mmr_model(df, data)
-        elif method == 'MOD':
-            # Mathematical Modeling logic
-            result = build_math_model(df, data)
-        elif method == 'ISO':
-            # Isochrone Fitting logic
-            result = build_isochrone_model(df, data)
-
-        session['current_model'] = result
-        return jsonify({'plot_id': save_plot(result['fig'])})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/plot/<plot_id>')
-def get_plot(plot_id):
-    return send_file(f'static/plots/{plot_id}.json')
-
-# Model building functions
-def build_mmr_model(df, params):
-    # Implementation using tools.py and original logic
-    fig = create_mmr_plot(df, params)
-    return {'fig': fig, 'type': 'MMR'}
-
-def build_math_model(df, params):
-    # Implementation using MathModels class
-    selected_features = MathModels.select_features(df, params['target'])
-    X = df[selected_features].values
-    y = df[params['target']].values
-    model, report = RegressionReport(X, y)
-    fig = create_regression_plot(X, y, model)
-    return {'fig': fig, 'model': model, 'report': report}
-
-# Plot creation functions
-def create_mmr_plot(df, params):
-    # Use Plotly instead of matplotlib
-    fig = plotly.graph_objs.Figure()
-    # Add plot traces using original data
-    return fig
-
-def create_regression_plot(X, y, model):
-    # Convert matplotlib plots to Plotly
-    fig = plotly.graph_objs.Figure()
-    # Add regression diagnostic plots
-    return fig
+    flash('Invalid file type')
+    return redirect(request.url)
 
 if __name__ == '__main__':
     app.run(debug=True)

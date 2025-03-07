@@ -1,0 +1,34 @@
+<!-- Mass-Magnitude Modeling Form -->
+<section class="mass-magnitude-modeling">
+    <h2>Mass-Magnitude Modeling</h2>
+    <form id="massMagnitudeForm">
+        <label for="model">Isochrone Model:</label>
+        <select id="model" name="model">
+            <option value="bhac15">BHAC15</option>
+            <option value="parsec">PARSEC</option>
+            <option value="mist">MIST</option>
+        </select>
+
+        <label for="massRange">Mass Range (Msun):</label>
+        <input type="text" id="massRange" name="massRange" placeholder="0.1, 1.3">
+
+        <label for="age">Isochrone Age (Myr):</label>
+        <input type="number" id="age" name="age" value="112">
+
+        <label for="filter">Magnitude Filter:</label>
+        <select id="filter" name="filter">
+            <option value="G">G</option>
+            <option value="G_BP">G_BP</option>
+            <option value="G_RP">G_RP</option>
+        </select>
+
+        <button type="submit">Build Model</button>
+    </form>
+
+    <!-- Results Section -->
+    <div id="results">
+        <h3>Results</h3>
+        <div id="regressionPlot"></div>
+        <div id="modelReport"></div>
+    </div>
+</section>
