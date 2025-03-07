@@ -1,7 +1,28 @@
-<!-- Mathematical Modeling Form -->
-<section class="mathematical-modeling">
-  <h2>Mathematical Modeling</h2>
-  <form id="modelingForm">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathematical Modeling - S.P.E.C.T.R.A.</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>S.P.E.C.T.R.A.</h2>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/isochrone-fitting">Isochrone Fitting</a></li>
+    <li><a href="/mass-magnitude-modeling">Mass-Magnitude Modeling</a></li>
+    <li><a href="/mathematical-modeling">Mathematical Modeling</a></li>
+  </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <h1>Mathematical Modeling</h1>
+  <form id="modelingForm" method="POST">
     <label for="target">Select Target:</label>
     <select id="target" name="target">
       <option value="mass">Mass</option>
@@ -14,13 +35,16 @@
       <option value="logl">Luminosity</option>
     </select>
 
-    <button type="submit">Build Model</button>
+    <button type="submit" class="btn">Build Model</button>
   </form>
 
   <!-- Results Section -->
-  <div id="results">
-    <h3>Results</h3>
-    <div id="pcaPlot"></div>
-    <div id="regressionReport"></div>
+  {% if result %}
+  <div class="results">
+    <h2>Results</h2>
+    <p>{{ result.regression_report }}</p>
   </div>
-</section>
+  {% endif %}
+</div>
+</body>
+</html>

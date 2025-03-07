@@ -4,19 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.P.E.C.T.R.A. - Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<div class="sidebar">
-    <h2>S.P.E.C.T.R.A.</h2>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/isochrone-fitting">Isochrone Fitting</a></li>
-        <li><a href="/mass-magnitude-modeling">Mass-Magnitude Modeling</a></li>
-        <li><a href="/mathematical-modeling">Mathematical Modeling</a></li>
-    </ul>
+
+<!-- Suspended Bar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="/" class="navbar-logo">S.P.E.C.T.R.A.</a>
+        <ul class="navbar-menu">
+            <li>
+                <a href="/">
+                    <span class="icon">
+                        <i class="fa-solid fa-house"></i>
+                    </span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/isochrone-fitting">
+                    <span class="icon">
+                        <i class="fa-solid fa-star"></i>
+                    </span>
+                    <span class="text">Isochrone Fitting</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mass-magnitude-modeling">
+                    <span class="icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+                    <span class="text">Mass-Magnitude</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mathematical-modeling">
+                    <span class="icon">
+                        <i class="fa-solid fa-calculator"></i>
+                    </span>
+                    <span class="text">Mathematical Modeling</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <i class="fa-solid fa-gear"></i>
+                    </span>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Toggle Button -->
+<div class="toggle-button">
+    <i class="fa-solid fa-bars"></i>
 </div>
 
+<!-- Main Content -->
 <div class="main-content">
     <section class="hero">
         <h1>Welcome to S.P.E.C.T.R.A.</h1>
@@ -42,5 +89,8 @@
         </div>
     </section>
 </div>
+
+<!-- JavaScript -->
+<script src="/static/js/script.js"></script>
 </body>
 </html>

@@ -1,7 +1,28 @@
-<!-- Mass-Magnitude Modeling Form -->
-<section class="mass-magnitude-modeling">
-    <h2>Mass-Magnitude Modeling</h2>
-    <form id="massMagnitudeForm">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mass-Magnitude Modeling - S.P.E.C.T.R.A.</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>S.P.E.C.T.R.A.</h2>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/isochrone-fitting">Isochrone Fitting</a></li>
+        <li><a href="/mass-magnitude-modeling">Mass-Magnitude Modeling</a></li>
+        <li><a href="/mathematical-modeling">Mathematical Modeling</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <h1>Mass-Magnitude Modeling</h1>
+    <form id="massMagnitudeForm" method="POST">
         <label for="model">Isochrone Model:</label>
         <select id="model" name="model">
             <option value="bhac15">BHAC15</option>
@@ -22,13 +43,16 @@
             <option value="G_RP">G_RP</option>
         </select>
 
-        <button type="submit">Build Model</button>
+        <button type="submit" class="btn">Build Model</button>
     </form>
 
     <!-- Results Section -->
-    <div id="results">
-        <h3>Results</h3>
-        <div id="regressionPlot"></div>
-        <div id="modelReport"></div>
+    {% if result %}
+    <div class="results">
+        <h2>Results</h2>
+        <p>{{ result.model_report }}</p>
     </div>
-</section>
+    {% endif %}
+</div>
+</body>
+</html>

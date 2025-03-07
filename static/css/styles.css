@@ -29,50 +29,87 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 250px;
-    height: 100vh;
+/* Suspended Bar */
+.navbar {
     background-color: var(--secondary-color);
+    padding: 10px 20px;
     position: fixed;
     top: 0;
     left: 0;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: width var(--transition-speed);
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--accent-color);
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    margin: 15px 0;
-}
-
-.sidebar ul li a {
+.navbar-logo {
     color: var(--text-color);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-menu li {
+    margin: 0;
+}
+
+.navbar-menu li a {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
     transition: color var(--transition-speed);
 }
 
-.sidebar ul li a:hover {
+.navbar-menu li a:hover {
+    color: var(--accent-color);
+}
+
+.navbar-menu li a .icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+}
+
+/* Active Link */
+.navbar-menu li.active a {
+    color: var(--accent-color);
+}
+
+/* Active Link */
+.sidebar ul li.active a {
     color: var(--accent-color);
 }
 
 /* Main Content */
 .main-content {
-    margin-left: 250px;
+    margin-top: 70px;
     padding: 20px;
 }
 
+/* Collapsed Sidebar */
+.sidebar.collapsed + .main-content {
+    margin-left: 80px;
+}
 /* Hero Section */
 .hero {
     text-align: center;
@@ -224,5 +261,40 @@ form button:hover {
 
     .features {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar h2 {
+        display: none;
+    }
+
+    .sidebar ul li a {
+        font-size: 0.9rem;
+    }
+
+    .main-content {
+        margin-left: 60px;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
